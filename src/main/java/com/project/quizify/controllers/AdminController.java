@@ -35,7 +35,7 @@ import com.project.quizify.security.jwt.*;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/admin")
-public class AdninController {
+public class AdminController {
 
 	@Autowired
 	private UserRepository userRepository;

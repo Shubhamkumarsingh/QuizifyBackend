@@ -62,7 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/api/auth/**").permitAll()
-			.antMatchers("/api/test/**").permitAll().antMatchers("/api/admin/**").permitAll()
+			.antMatchers("/api/test/**").permitAll().antMatchers("/api/quiz/**").permitAll().antMatchers("/api/question/**").permitAll()
+			.antMatchers("/api/answer/**").permitAll()
 			.anyRequest().authenticated();
 		http.headers().addHeaderWriter(
                 new StaticHeadersWriter("Access-Control-Allow-Origin", "*"));

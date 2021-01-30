@@ -50,6 +50,7 @@ private	UserRepository userRepository;
 
 	@Autowired
 	JwtUtils jwtUtils;
+	
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -126,4 +127,6 @@ private	UserRepository userRepository;
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
+	
+	
 }

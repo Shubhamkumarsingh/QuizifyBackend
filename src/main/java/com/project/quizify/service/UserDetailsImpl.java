@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import javax.persistence.OneToOne;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +17,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.quizify.models.User;
 
 public class UserDetailsImpl implements UserDetails {
+	
+
+	
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
@@ -24,7 +30,12 @@ public class UserDetailsImpl implements UserDetails {
 
 	@JsonIgnore
 	private String password;
-
+   
+	private User user;
+	
+	public UserDetailsImpl(User user) {
+		this.user=user;
+	}
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public UserDetailsImpl(Long id, String username, String email, String password,
@@ -92,6 +103,14 @@ public class UserDetailsImpl implements UserDetails {
 		return true;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -100,5 +119,11 @@ public class UserDetailsImpl implements UserDetails {
 			return false;
 		UserDetailsImpl user = (UserDetailsImpl) o;
 		return Objects.equals(id, user.id);
+	}
+	
+	@Override
+	public String toString() {
+		return "UserDetailsImpl [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
+				+ ", user=" + user + ", authorities=" + authorities + "]";
 	}
 }
