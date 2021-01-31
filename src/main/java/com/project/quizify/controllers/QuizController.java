@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.quizify.models.Answers;
 import com.project.quizify.models.Quiz;
+import com.project.quizify.models.Result;
 import com.project.quizify.models.User;
 import com.project.quizify.repository.QuizRepository;
 import com.project.quizify.repository.UserRepository;
@@ -72,4 +74,21 @@ public class QuizController {
 		
 		quizService.delete(quiz);
 	}
+	
+	@GetMapping("/quizzes")
+	public List<Quiz> getQuiz(){
+	      return quizService.getQuizzes();
+	}
+	
+	@PostMapping("/playquiz/{quiz_id}")
+	public Result playQuiz(@RequestBody List<Answers> answers,@PathVariable int quiz_id,@AuthenticationPrincipal UserDetailsImpl userdetail) {
+		Quiz quiz =quizService.find(quiz_id);
+		System.out.println(quiz);
+	     
+		User user =userrepos.findById(userdetail.getId()).get();
+	     System.out.println(user);
+	     
+	    return quizService.checkAnswers(answers, quiz, user); 
+	}
+	
 }

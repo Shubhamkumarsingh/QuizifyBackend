@@ -88,4 +88,9 @@ public class Quiz {
 		this.questions = questions;
 	}
 
+	@Override
+	public String toString() {
+		return "Quiz [id=" + id + ", name=" + name + ", user=" + user + ", questions=" + questions + "]";
+	}
+
 	}
