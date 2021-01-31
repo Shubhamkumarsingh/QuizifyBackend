@@ -1,0 +1,25 @@
+
+
+Moderator
+Quiz
+Post: http://localhost:8080/api/quiz/add-quiz
+Get: http://localhost:8080/api/quiz/1/quizzes # 1 is user_id 
+Put: http://localhost:8080/api/quiz/updatequiz/44 # 44 is quiz_id
+Delete: http://localhost:8080/api/quiz/quizdelete/45 # 45 is quiz_id
+
+Question
+Post: http://localhost:8080/api/question/44/savequestion # 44 is quiz_id
+Get: http://localhost:8080/api/question/44/allquestion # 44 is quiz_id
+Put: http://localhost:8080/api/question/updatequestion/27 #27 is question_id
+Delete: http://localhost:8080/api/question/deletequestion/28 # 28 is question_id
+
+Answers
+Post:http://localhost:8080/api/answer/27/saveanswer #27 is question_id
+Get: http://localhost:8080/api/answer/27/allanswer # 27 is question_id
+Put: http://localhost:8080/api/answer/updateanswer/31 # 31 is answer_id
+Delete: http://localhost:8080/api/answer/deleteanswer/31 #31 answer_id
+
+
+User
+http://localhost:8080/api/quiz/quizzes
+http://localhost:8080/api/quiz/playquiz/46 #46 quiz id 
