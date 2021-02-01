@@ -1,5 +1,6 @@
 package com.project.quizify.service;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -33,21 +34,19 @@ public class UserDetailsImpl implements UserDetails {
    
 	private User user;
 	
-	public UserDetailsImpl(User user) {
-		this.user=user;
-	}
+	
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public UserDetailsImpl(Long id, String username, String email, String password,
-			Collection<? extends GrantedAuthority> authorities) {
-		this.id = id;
-		this.username = username;
-		this.email = email;
-		this.password = password;
-		this.authorities = authorities;
+	public UserDetailsImpl(User user) {
+		this.id = user.getId();
+		this.username = user.getUsername();
+		this.email = user.getEmail();
+		this.password = user.getPassword();
+		this.authorities = Arrays.stream(user.getRoles().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+		
 	}
 
-	public static UserDetailsImpl build(User user) {
+	/*public static UserDetailsImpl build(User user) {
 		List<GrantedAuthority> authorities = user.getRoles().stream()
 				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
 				.collect(Collectors.toList());
@@ -58,7 +57,7 @@ public class UserDetailsImpl implements UserDetails {
 				user.getEmail(),
 				user.getPassword(), 
 				authorities);
-	}
+	}*/
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -2,6 +2,7 @@ package com.project.quizify.controllers;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.el.ListELResolver;
@@ -10,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,38 +72,38 @@ public class AdminController {
 		// Create new user's account
 		User user = new User(signUpRequest.getUsername(), 
 							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
+							 encoder.encode(signUpRequest.getPassword())
+							 ,signUpRequest.getFirstName(),signUpRequest.getLastName(),signUpRequest.getRole());
 		//System.out.println(user);
-		Set<String> strRoles = signUpRequest.getRole();
-		Set<Role> roles = new HashSet<>();
-          
-		//if (strRoles == null) {
-			Role userRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(userRole);
-			System.out.println(roles);
-	//	} else {
-//			strRoles.forEach(role -> {
-//				switch (role) {
-//				
-//				case "mod":
-//					Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-//							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//					roles.add(modRole);
-//
-//					break;
-//					
-//				
-//				}
-//			});
-//		}
-
-		System.out.println(roles);
-		user.setRoles(roles);
-		userRepository.save(user);
+		/*
+		 * Set<String> strRoles = signUpRequest.getRole(); Set<Role> roles = new
+		 * HashSet<>();
+		 * 
+		 * //if (strRoles == null) { Role userRole =
+		 * roleRepository.findByName(ERole.ROLE_MODERATOR) .orElseThrow(() -> new
+		 * RuntimeException("Error: Role is not found.")); roles.add(userRole);
+		 * System.out.println(roles); // } else { // strRoles.forEach(role -> { //
+		 * switch (role) { // // case "mod": // Role modRole =
+		 * roleRepository.findByName(ERole.ROLE_MODERATOR) // .orElseThrow(() -> new
+		 * RuntimeException("Error: Role is not found.")); // roles.add(modRole); // //
+		 * break; // // // } // }); // }
+		 * 
+		 * System.out.println(roles); user.setRoles(roles);
+		 */		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("Moderator registered successfully!"));
 	}
 
+	@PostMapping("/update")
+	public ResponseEntity<?> updateUser(@RequestBody SignupRequest signupRequest){
+		User user = userRepository.findByUsername(signupRequest.getUsername())
+				.orElseThrow();
+		user.setFirstName(signupRequest.getFirstName());
+		user.setLastName(signupRequest.getLastName());
+		user.setEmail(signupRequest.getEmail());
+		userRepository.save(user);
+		
+		return ResponseEntity.ok(new MessageResponse("Moderator updated successfully!"));
+	}
 	
 }
